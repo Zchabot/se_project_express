@@ -10,7 +10,7 @@ const {
 
 const getUsers = (req, res) => {
   User.find({})
-    .then((users) => res.status(200).send(users))
+    .then((users) => res.send(users))
     .catch((err) => {
       console.error(err);
       return res.status(DEFAULT_STATUS).send(DEFAULT_MESSAGE);
@@ -34,7 +34,7 @@ const getUser = (req, res) => {
   const { userId } = req.params;
   User.findById(userId)
     .orFail()
-    .then((user) => res.status(200).send(user))
+    .then((user) => res.send(user))
     .catch((err) => {
       console.error(err);
       if (err.name === "DocumentNotFoundError") {

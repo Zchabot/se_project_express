@@ -31,7 +31,7 @@ const createItem = (req, res) => {
 const getItems = (req, res) => {
   ClothingItem.find({})
     .populate(["owner", "likes", "createdAt"])
-    .then((items) => res.status(200).send(items))
+    .then((items) => res.send(items))
     .catch((err) => {
       console.error(err);
       return res.status(DEFAULT_STATUS).send(DEFAULT_MESSAGE);
@@ -42,7 +42,7 @@ const deleteItem = (req, res) => {
   const { itemId } = req.params;
   ClothingItem.findByIdAndDelete(itemId)
     .orFail()
-    .then((item) => res.status(200).send(item))
+    .then((item) => res.send(item))
     .catch((err) => {
       console.error(err);
       if (err.name === "DocumentNotFoundError") {

@@ -1,6 +1,13 @@
 const ClothingItem = require("../models/clothingItem");
 
-const { error400, error404, error500 } = require("../utils/errors");
+const {
+  BAD_REQUEST_MESSAGE,
+  BAD_REQUEST_STATUS,
+  NOT_FOUND_MESSAGE,
+  NOT_FOUND_STATUS,
+  DEFAULT_MESSAGE,
+  DEFAULT_STATUS,
+} = require("../utils/errors");
 
 const likeItem = (req, res) => {
   ClothingItem.findByIdAndUpdate(
@@ -13,12 +20,12 @@ const likeItem = (req, res) => {
     .catch((err) => {
       console.error(err);
       if (err.name === "DocumentNotFoundError") {
-        return res.status(404).send(error404);
+        return res.status(NOT_FOUND_STATUS).send(NOT_FOUND_MESSAGE);
       }
       if (err.name === "CastError") {
-        return res.status(400).send(error400);
+        return res.status(BAD_REQUEST_STATUS).send(BAD_REQUEST_MESSAGE);
       }
-      return res.status(500).send(error500);
+      return res.status(DEFAULT_STATUS).send(DEFAULT_MESSAGE);
     });
 };
 
@@ -33,12 +40,12 @@ const dislikeItem = (req, res) => {
     .catch((err) => {
       console.error(err);
       if (err.name === "DocumentNotFoundError") {
-        return res.status(404).send(error404);
+        return res.status(NOT_FOUND_STATUS).send(NOT_FOUND_MESSAGE);
       }
       if (err.name === "CastError") {
-        return res.status(400).send(error400);
+        return res.status(BAD_REQUEST_STATUS).send(BAD_REQUEST_MESSAGE);
       }
-      return res.status(500).send(error500);
+      return res.status(DEFAULT_STATUS).send(DEFAULT_MESSAGE);
     });
 };
 

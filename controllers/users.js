@@ -1,6 +1,6 @@
-const { User } = require("../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { User } = require("../models/user");
 const { JWT_SECRET } = require("../utils/config");
 const {
   UNAUTHORIZED_MESSAGE,
@@ -22,16 +22,13 @@ const createUser = (req, res) => {
   const { name, avatar, email, password } = req.body;
   bcrypt
     .hash(password, 10)
-    .then((hash) =>
-      User.create({ name: name, avatar: avatar, email: email, password: hash })
-    )
+    .then((hash) => User.create({ name, avatar, email, password: hash }))
     .then((user) =>
       res.status(201).send({
         name: user.name,
         avatar: user.avatar,
         email: user.email,
         _id: user._id,
-        __v: user.__v,
       })
     )
     .catch((err) => {
@@ -81,7 +78,8 @@ const updateUserInfo = (req, res) => {
     .catch((err) => {
       if (err.name === "DocumentNotFoundError") {
         return res.status(NOT_FOUND_STATUS).send(NOT_FOUND_MESSAGE);
-      } else if (err.name === "ValidationError") {
+      }
+      if (err.name === "ValidationError") {
         return res.status(BAD_REQUEST_STATUS).send(BAD_REQUEST_MESSAGE);
       }
       console.log(err.name);
@@ -100,12 +98,13 @@ const login = (req, res) => {
       res.send({ token: token });
     })
     .catch((err) => {
-      if (err.name === "AutorizaationError") {
+      if (err.name === "AutorizationError") {
         return res.status(UNAUTHORIZED_STATUS).send(UNAUTHORIZED_MESSAGE);
       }
       if (err.name === "DocumentNotFoundError") {
         return res.status(NOT_FOUND_STATUS).send(NOT_FOUND_MESSAGE);
-      } else if (err.name === "Error") {
+      }
+      if (err.name === "Error") {
         return res.status(BAD_REQUEST_STATUS).send(BAD_REQUEST_MESSAGE);
       }
       console.log(err);

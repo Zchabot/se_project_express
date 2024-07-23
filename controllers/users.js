@@ -82,7 +82,6 @@ const updateUserInfo = (req, res) => {
       if (err.name === "ValidationError") {
         return res.status(BAD_REQUEST_STATUS).send(BAD_REQUEST_MESSAGE);
       }
-      console.log(err.name);
       return res.status(DEFAULT_STATUS).send(DEFAULT_MESSAGE);
     });
 };
@@ -95,7 +94,7 @@ const login = (req, res) => {
       const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
         expiresIn: "7d",
       });
-      res.send({ token: token });
+      res.send({ token });
     })
     .catch((err) => {
       if (err.name === "AutorizationError") {
@@ -107,7 +106,6 @@ const login = (req, res) => {
       if (err.name === "Error") {
         return res.status(BAD_REQUEST_STATUS).send(BAD_REQUEST_MESSAGE);
       }
-      console.log(err);
       return res.status(DEFAULT_STATUS).send(DEFAULT_MESSAGE);
     });
 };

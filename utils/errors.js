@@ -9,7 +9,7 @@ const DEFAULT_MESSAGE = { message: "An error has occurred on the server." };
 
 const UNAUTHORIZED_MESSAGE = { message: "Authorization Required" };
 
-FORBIDDEN_MESSAGE = {
+const FORBIDDEN_MESSAGE = {
   message: "Authorization required to perform this action",
 };
 

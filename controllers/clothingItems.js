@@ -30,10 +30,17 @@ const createItem = (req, res) => {
 
 const getItems = (req, res) => {
   ClothingItem.find({})
+    .orFail()
     .populate(["owner", "likes", "createdAt"])
     .then((items) => res.send(items))
     .catch((err) => {
       console.error(err);
+      if (err.name === "DocumentNotFoundError") {
+        return res.status(NOT_FOUND_STATUS).send(NOT_FOUND_MESSAGE);
+      }
+      if (err.name === "CastError") {
+        return res.status(BAD_REQUEST_STATUS).send(BAD_REQUEST_MESSAGE);
+      }
       return res.status(DEFAULT_STATUS).send(DEFAULT_MESSAGE);
     });
 };

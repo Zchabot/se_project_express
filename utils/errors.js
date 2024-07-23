@@ -5,15 +5,29 @@ const BAD_REQUEST_MESSAGE = {
 
 const NOT_FOUND_MESSAGE = { message: "Requested resource not found" };
 
-const DEFAULT_MESSAGE = {
-  message: "An error has occurred on the server.",
+const DEFAULT_MESSAGE = { message: "An error has occurred on the server." };
+
+const UNAUTHORIZED_MESSAGE = { message: "Authorization Required" };
+
+FORBIDDEN_MESSAGE = {
+  message: "Authorization required to perform this action",
 };
+
+const CONFLICT_MESSAGE = {
+  message: "An account already exists for this email address",
+};
+
+const UNAUTHORIZED_STATUS = 401;
 
 const BAD_REQUEST_STATUS = 400;
 
 const NOT_FOUND_STATUS = 404;
 
 const DEFAULT_STATUS = 500;
+
+const FORBIDDEN_STATUS = 403;
+
+const CONFLICT_STATUS = 409;
 
 module.exports = {
   BAD_REQUEST_MESSAGE,
@@ -22,4 +36,10 @@ module.exports = {
   NOT_FOUND_STATUS,
   DEFAULT_MESSAGE,
   DEFAULT_STATUS,
+  UNAUTHORIZED_MESSAGE,
+  UNAUTHORIZED_STATUS,
+  FORBIDDEN_STATUS,
+  FORBIDDEN_MESSAGE,
+  CONFLICT_MESSAGE,
+  CONFLICT_STATUS,
 };

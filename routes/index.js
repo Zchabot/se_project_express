@@ -4,7 +4,10 @@ const { NOT_FOUND_MESSAGE, NOT_FOUND_STATUS } = require("../utils/errors");
 const userRouter = require("./users");
 const clothingItemRouter = require("./clothingItems");
 const likesRouter = require("./likes");
+const { createUser, login } = require("../controllers/users");
 
+router.post("/signin", login);
+router.post("/signup", createUser);
 router.use("/users", userRouter);
 router.use("/items", clothingItemRouter);
 router.use("/items", likesRouter);

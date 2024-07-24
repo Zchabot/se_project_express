@@ -32,9 +32,7 @@ const getItems = (req, res) => {
   ClothingItem.find({})
     .populate(["owner", "likes"])
     .then((items) => res.send(items))
-    .catch(() => {
-      return res.status(DEFAULT_STATUS).send(DEFAULT_MESSAGE);
-    });
+    .catch(() => res.status(DEFAULT_STATUS).send(DEFAULT_MESSAGE));
 };
 
 const deleteItem = (req, res) => {

@@ -25,7 +25,7 @@ const createUser = (req, res) => {
     .hash(password, 10)
     .then((hash) => User.create({ name, avatar, email, password: hash }))
     .then((user) =>
-      res.status(201).send({
+      res.send({
         name: user.name,
         avatar: user.avatar,
         email: user.email,
@@ -72,7 +72,7 @@ const updateUserInfo = (req, res) => {
     { new: true, runValidators: true }
   )
     .orFail()
-    .then((user) => res.status(200).send({ data: user }))
+    .then((user) => res.send({ data: user }))
     .catch((err) => {
       if (err.name === "DocumentNotFoundError") {
         return res.status(NOT_FOUND_STATUS).send(NOT_FOUND_MESSAGE);

@@ -17,6 +17,10 @@ const CONFLICT_MESSAGE = {
   message: "An account already exists for this email address",
 };
 
+const MISSING_FIELDS_MESSAGE = {
+  message: "The email and password fields are required",
+};
+
 const UNAUTHORIZED_STATUS = 401;
 
 const BAD_REQUEST_STATUS = 400;
@@ -42,4 +46,5 @@ module.exports = {
   FORBIDDEN_MESSAGE,
   CONFLICT_MESSAGE,
   CONFLICT_STATUS,
+  MISSING_FIELDS_MESSAGE,
 };

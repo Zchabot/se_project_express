@@ -16,6 +16,7 @@ const {
   DEFAULT_STATUS,
   CONFLICT_MESSAGE,
   CONFLICT_STATUS,
+  MISSING_FIELDS_MESSAGE,
 } = require("../utils/errors");
 
 const createUser = (req, res) => {
@@ -34,9 +35,6 @@ const createUser = (req, res) => {
     .catch((err) => {
       console.error(err);
       if (err.name === "ValidationError") {
-        return res.status(BAD_REQUEST_STATUS).send(BAD_REQUEST_MESSAGE);
-      }
-      if (err.name === "11000") {
         return res.status(BAD_REQUEST_STATUS).send(BAD_REQUEST_MESSAGE);
       }
       if (err.name === "MongoServerError") {
@@ -89,6 +87,10 @@ const updateUserInfo = (req, res) => {
 const login = (req, res) => {
   const { email, password } = req.body;
 
+  if (!email || !password) {
+    return res.status(BAD_REQUEST_STATUS).send(MISSING_FIELDS_MESSAGE);
+  }
+
   return User.findUserByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
@@ -97,14 +99,8 @@ const login = (req, res) => {
       res.send({ token });
     })
     .catch((err) => {
-      if (err.name === "AutorizationError") {
+      if (err.message === "Incorrect email or password") {
         return res.status(UNAUTHORIZED_STATUS).send(UNAUTHORIZED_MESSAGE);
-      }
-      if (err.name === "DocumentNotFoundError") {
-        return res.status(NOT_FOUND_STATUS).send(NOT_FOUND_MESSAGE);
-      }
-      if (err.name === "Error") {
-        return res.status(BAD_REQUEST_STATUS).send(BAD_REQUEST_MESSAGE);
       }
       return res.status(DEFAULT_STATUS).send(DEFAULT_MESSAGE);
     });

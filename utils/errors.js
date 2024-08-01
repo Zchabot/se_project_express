@@ -1,25 +1,17 @@
-const BAD_REQUEST_MESSAGE = {
-  message:
-    "invalid data passed to the methods for creating an item/user or updating an item/user, or invalid ID passed to the params.",
-};
+const BAD_REQUEST_MESSAGE =
+  "invalid data passed to the methods for creating an item/user or updating an item/user, or invalid ID passed to the params.";
 
-const NOT_FOUND_MESSAGE = { message: "Requested resource not found" };
+const NOT_FOUND_MESSAGE = "Requested resource not found";
 
-const DEFAULT_MESSAGE = { message: "An error has occurred on the server." };
+const DEFAULT_MESSAGE = "An error has occurred on the server.";
 
-const UNAUTHORIZED_MESSAGE = { message: "Authorization Required" };
+const UNAUTHORIZED_MESSAGE = "Authorization Required";
 
-const FORBIDDEN_MESSAGE = {
-  message: "Authorization required to perform this action",
-};
+const FORBIDDEN_MESSAGE = "Authorization required to perform this action";
 
-const CONFLICT_MESSAGE = {
-  message: "An account already exists for this email address",
-};
+const CONFLICT_MESSAGE = "An account already exists for this email address";
 
-const MISSING_FIELDS_MESSAGE = {
-  message: "The email and password fields are required",
-};
+const MISSING_FIELDS_MESSAGE = "The email and password fields are required";
 
 const UNAUTHORIZED_STATUS = 401;
 

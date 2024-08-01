@@ -20,17 +20,21 @@ const checkOwner = (req, res, next) => {
       if (itemOwner === ownerId) {
         return next();
       }
-      return res.status(FORBIDDEN_STATUS).send(FORBIDDEN_MESSAGE);
+      return res.status(FORBIDDEN_STATUS).send({ message: FORBIDDEN_MESSAGE });
     })
     .catch((err) => {
       console.error(err);
       if (err.name === "DocumentNotFoundError") {
-        return res.status(NOT_FOUND_STATUS).send(NOT_FOUND_MESSAGE);
+        return res
+          .status(NOT_FOUND_STATUS)
+          .send({ message: NOT_FOUND_MESSAGE });
       }
       if (err.name === "CastError") {
-        return res.status(BAD_REQUEST_STATUS).send(BAD_REQUEST_MESSAGE);
+        return res
+          .status(BAD_REQUEST_STATUS)
+          .send({ message: BAD_REQUEST_MESSAGE });
       }
-      return res.status(DEFAULT_STATUS).send(DEFAULT_MESSAGE);
+      return res.status(DEFAULT_STATUS).send({ message: DEFAULT_MESSAGE });
     });
 };
 

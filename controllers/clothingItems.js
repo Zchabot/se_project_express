@@ -1,15 +1,10 @@
+const BadRequestError = require("../utils/Errors/BadRequestError");
+const NotFoundError = require("../utils/Errors/NotFoundError");
 const ClothingItem = require("../models/clothingItem");
 
-const {
-  BAD_REQUEST_MESSAGE,
-  BAD_REQUEST_STATUS,
-  NOT_FOUND_MESSAGE,
-  NOT_FOUND_STATUS,
-  DEFAULT_MESSAGE,
-  DEFAULT_STATUS,
-} = require("../utils/errors");
+const { BAD_REQUEST_MESSAGE, NOT_FOUND_MESSAGE } = require("../utils/errors");
 
-const createItem = (req, res) => {
+const createItem = (req, res, next) => {
   const ownerId = req.user._id;
   const { name, weather, imageUrl } = req.body;
   ClothingItem.create({
@@ -22,20 +17,21 @@ const createItem = (req, res) => {
     .catch((err) => {
       console.error(err);
       if (err.name === "ValidationError") {
-        return res.status(BAD_REQUEST_STATUS).send(BAD_REQUEST_MESSAGE);
+        next(new BadRequestError(BAD_REQUEST_MESSAGE));
+      } else {
+        next();
       }
-      return res.status(DEFAULT_STATUS).send(DEFAULT_MESSAGE);
     });
 };
 
-const getItems = (req, res) => {
+const getItems = (req, res, next) => {
   ClothingItem.find({})
     .populate(["owner", "likes"])
     .then((items) => res.send(items))
-    .catch(() => res.status(DEFAULT_STATUS).send(DEFAULT_MESSAGE));
+    .catch(() => next());
 };
 
-const deleteItem = (req, res) => {
+const deleteItem = (req, res, next) => {
   const { itemId } = req.params;
   ClothingItem.findByIdAndDelete(itemId)
     .orFail()
@@ -43,12 +39,10 @@ const deleteItem = (req, res) => {
     .catch((err) => {
       console.error(err);
       if (err.name === "DocumentNotFoundError") {
-        return res.status(NOT_FOUND_STATUS).send(NOT_FOUND_MESSAGE);
-      }
-      if (err.name === "CastError") {
-        return res.status(BAD_REQUEST_STATUS).send(BAD_REQUEST_MESSAGE);
-      }
-      return res.status(DEFAULT_STATUS).send(DEFAULT_MESSAGE);
+        next(new NotFoundError(NOT_FOUND_MESSAGE));
+      } else if (err.name === "CastError") {
+        next(new BadRequestError(BAD_REQUEST_MESSAGE));
+      } else next();
     });
 };
 

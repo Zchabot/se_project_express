@@ -6,9 +6,13 @@ const {
 } = require("../controllers/clothingItems");
 const { auth } = require("../middlewares/auth");
 const { checkOwner } = require("../middlewares/checkOwner");
+const {
+  validateCardBody,
+  validateItemId,
+} = require("../middlewares/validation");
 
-router.post("/", auth, createItem);
+router.post("/", validateCardBody, auth, createItem);
 router.get("/", getItems);
-router.delete("/:itemId", auth, checkOwner, deleteItem);
+router.delete("/:itemId", validateItemId, auth, checkOwner, deleteItem);
 
 module.exports = router;

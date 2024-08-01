@@ -1,15 +1,10 @@
 const ClothingItem = require("../models/clothingItem");
+const BadRequestError = require("../utils/Errors/BadRequestError");
+const NotFoundError = require("../utils/Errors/NotFoundError");
 
-const {
-  BAD_REQUEST_MESSAGE,
-  BAD_REQUEST_STATUS,
-  NOT_FOUND_MESSAGE,
-  NOT_FOUND_STATUS,
-  DEFAULT_MESSAGE,
-  DEFAULT_STATUS,
-} = require("../utils/errors");
+const { BAD_REQUEST_MESSAGE, NOT_FOUND_MESSAGE } = require("../utils/errors");
 
-const likeItem = (req, res) => {
+const likeItem = (req, res, next) => {
   ClothingItem.findByIdAndUpdate(
     req.params.itemId,
     { $addToSet: { likes: req.user._id } },
@@ -20,16 +15,16 @@ const likeItem = (req, res) => {
     .catch((err) => {
       console.error(err);
       if (err.name === "DocumentNotFoundError") {
-        return res.status(NOT_FOUND_STATUS).send(NOT_FOUND_MESSAGE);
+        next(new NotFoundError(NOT_FOUND_MESSAGE));
+      } else if (err.name === "CastError") {
+        next(new (BadRequestError(BAD_REQUEST_MESSAGE))());
+      } else {
+        next();
       }
-      if (err.name === "CastError") {
-        return res.status(BAD_REQUEST_STATUS).send(BAD_REQUEST_MESSAGE);
-      }
-      return res.status(DEFAULT_STATUS).send(DEFAULT_MESSAGE);
     });
 };
 
-const dislikeItem = (req, res) => {
+const dislikeItem = (req, res, next) => {
   ClothingItem.findByIdAndUpdate(
     req.params.itemId,
     { $pull: { likes: req.user._id } },
@@ -40,12 +35,12 @@ const dislikeItem = (req, res) => {
     .catch((err) => {
       console.error(err);
       if (err.name === "DocumentNotFoundError") {
-        return res.status(NOT_FOUND_STATUS).send(NOT_FOUND_MESSAGE);
+        next(new NotFoundError(NOT_FOUND_MESSAGE));
+      } else if (err.name === "CastError") {
+        next(new (BadRequestError(BAD_REQUEST_MESSAGE))());
+      } else {
+        next();
       }
-      if (err.name === "CastError") {
-        return res.status(BAD_REQUEST_STATUS).send(BAD_REQUEST_MESSAGE);
-      }
-      return res.status(DEFAULT_STATUS).send(DEFAULT_MESSAGE);
     });
 };
 

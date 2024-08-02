@@ -19,7 +19,7 @@ const createItem = (req, res, next) => {
       if (err.name === "ValidationError") {
         next(new BadRequestError(BAD_REQUEST_MESSAGE));
       } else {
-        next();
+        next(err);
       }
     });
 };
@@ -28,7 +28,7 @@ const getItems = (req, res, next) => {
   ClothingItem.find({})
     .populate(["owner", "likes"])
     .then((items) => res.send(items))
-    .catch(() => next());
+    .catch((err) => next(err));
 };
 
 const deleteItem = (req, res, next) => {
@@ -42,7 +42,7 @@ const deleteItem = (req, res, next) => {
         next(new NotFoundError(NOT_FOUND_MESSAGE));
       } else if (err.name === "CastError") {
         next(new BadRequestError(BAD_REQUEST_MESSAGE));
-      } else next();
+      } else next(err);
     });
 };
 

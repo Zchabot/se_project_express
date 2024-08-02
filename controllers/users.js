@@ -85,22 +85,21 @@ const login = (req, res, next) => {
 
   if (!email || !password) {
     next(new BadRequestError(BAD_REQUEST_MESSAGE));
-  } else {
-    return User.findUserByCredentials(email, password)
-      .then((user) => {
-        const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
-          expiresIn: "7d",
-        });
-        res.send({ token });
-      })
-      .catch((err) => {
-        if (err.message === "Incorrect email or password") {
-          next(new UnauthorizedError(UNAUTHORIZED_MESSAGE));
-        } else {
-          next(err);
-        }
-      });
   }
+  return User.findUserByCredentials(email, password)
+    .then((user) => {
+      const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
+        expiresIn: "7d",
+      });
+      res.send({ token });
+    })
+    .catch((err) => {
+      if (err.message === "Incorrect email or password") {
+        next(new UnauthorizedError(UNAUTHORIZED_MESSAGE));
+      } else {
+        next(err);
+      }
+    });
 };
 
 module.exports = { createUser, getCurrentUser, updateUserInfo, login };

@@ -77,16 +77,6 @@ const validateUserInfo = celebrate({
   }),
 });
 
-const validateUserId = celebrate({
-  body: Joi.object().keys({
-    _id: Joi.string().required().hex().length(24).messages({
-      "string.length": "Invalid ID",
-      "string.empty": "Invalid ID",
-      "string.hex": "Invalid ID",
-    }),
-  }),
-});
-
 const validateItemId = celebrate({
   params: Joi.object().keys({
     itemId: Joi.string().required().hex().length(24).messages({
@@ -101,7 +91,6 @@ module.exports = {
   validateCardBody,
   validateUserInfo,
   validateAuthUser,
-  validateUserId,
   validateItemId,
   validateUpdatedUser,
 };

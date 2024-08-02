@@ -19,7 +19,7 @@ const likeItem = (req, res, next) => {
       } else if (err.name === "CastError") {
         next(new (BadRequestError(BAD_REQUEST_MESSAGE))());
       } else {
-        next();
+        next(err);
       }
     });
 };
@@ -39,7 +39,7 @@ const dislikeItem = (req, res, next) => {
       } else if (err.name === "CastError") {
         next(new (BadRequestError(BAD_REQUEST_MESSAGE))());
       } else {
-        next();
+        next(err);
       }
     });
 };

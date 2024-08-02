@@ -11,8 +11,8 @@ const {
   validateItemId,
 } = require("../middlewares/validation");
 
-router.post("/", validateCardBody, auth, createItem);
+router.post("/", auth, validateCardBody, createItem);
 router.get("/", getItems);
-router.delete("/:itemId", validateItemId, auth, checkOwner, deleteItem);
+router.delete("/:itemId", auth, validateItemId, checkOwner, deleteItem);
 
 module.exports = router;

@@ -16,9 +16,10 @@ const checkOwner = (req, res, next) => {
     .then((item) => {
       const itemOwner = item.owner._id.toString();
       if (itemOwner === ownerId) {
-        return next();
+        next();
+      } else {
+        next(new ForbiddenError(FORBIDDEN_MESSAGE));
       }
-      next(new ForbiddenError(FORBIDDEN_MESSAGE));
     })
     .catch((err) => {
       console.error(err);
@@ -28,7 +29,7 @@ const checkOwner = (req, res, next) => {
       if (err.name === "CastError") {
         next(new BadRequestError(BAD_REQUEST_MESSAGE));
       }
-      next();
+      next(err);
     });
 };
 

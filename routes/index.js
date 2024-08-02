@@ -16,7 +16,7 @@ router.post("/signup", validateUserInfo, createUser);
 router.use("/users", userRouter);
 router.use("/items", clothingItemRouter);
 router.use("/items", likesRouter);
-router.use("*", (next) => {
+router.use("*", (req, res, next) => {
   next(new NotFoundError(NOT_FOUND_MESSAGE));
 });
 

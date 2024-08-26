@@ -1,6 +1,6 @@
 ## Descriprion
 
-Project Express a server with an API and user authorization that was designed as the backend for an application called WTWR (What To Wear). This server interacts with the WTWR fron end and stores data, such as user data, clothing item data and likes for the clothing items that are submitted by users on the fron end.
+Project Express a server with an API and user authorization that was designed as the backend for an application called WTWR (What To Wear). This server interacts with the WTWR fron end and stores data, such as user data, clothing item data and likes for the clothing items that are submitted by users on the front end.
 
 ## Technologies and Techniques
 
